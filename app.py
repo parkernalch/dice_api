@@ -29,10 +29,10 @@ def roll():
     req = request.get_json()
     rollequation = req['equation']
     # return jsonify(Roll(rollequation))
-    # res = evaluate(rollequation)
+    res = evaluate(rollequation)
 
-    res = flask.make_response()
-    res['result'] = evaluate(rollequation)
+    # res = flask.make_response()
+    # res['result'] = evaluate(rollequation)
     
     if str(res)[:1] == "U":
         res['status'] = 400
