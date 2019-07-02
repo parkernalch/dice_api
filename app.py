@@ -36,4 +36,3 @@ def roll():
 
     return jsonify(res)
 
-# app.run()
