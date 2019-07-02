@@ -1,5 +1,6 @@
 # Dice API
 A full-stack flask application with API backend
+check it out [here](http://apidice.herokuapp.com)
 
 ## Dice Notation
     - XdY: roll X many Y-sided dice and return the sum
