@@ -2,10 +2,12 @@ import flask
 import random
 from dieroll import roll, evaluate
 from flask import request, jsonify
+from flask_cors import CORS
 
 
 app  = flask.Flask(__name__)
 app.config['DEBUG'] = False
+cors = CORS(app)
 
 @app.route('/', methods=['GET'])
 def home():
@@ -27,7 +29,10 @@ def roll():
     req = request.get_json()
     rollequation = req['equation']
     # return jsonify(Roll(rollequation))
-    res = evaluate(rollequation)
+    # res = evaluate(rollequation)
+
+    res = flask.make_response()
+    res['result'] = evaluate(rollequation)
     
     if str(res)[:1] == "U":
         res['status'] = 400
