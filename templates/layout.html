@@ -59,10 +59,10 @@
                     contentType: 'application/json',
                     data: JSON.stringify(data),
                     success: function(res){
-                        $("#result").html(res);
+                        $("#result").html(res.result);
                         $("#reshead").css("color", "black");
-                        $("#reshead").html("Your roll of " + eq + " is:");
-                        $("#histlist").append("<li>" + eq + " | " + res.toString() + "</li>")
+                        $("#reshead").html("Your roll of " + res.equation + " is:");
+                        $("#histlist").append("<li>" + res.equation + " | " + res.result.toString() + "</li>")
                         $("#histlist").scrollTop($("#histlist")[0].scrollHeight);
                     },
                     error: function(xhr, err, status){
