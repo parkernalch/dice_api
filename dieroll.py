@@ -2,20 +2,36 @@ import random
 import re
 
 def evaluate(eq):
-    return roll(eq)
+    result, dice = roll(eq)
+    if not result[:1].isnumeric():
+        status = 'error'
+        err = result
+        result = '0'
+    else:
+        err = ''
+        status = 'success'
 
-def roll(eq):
+    output = {
+        'result': result,
+        'dice': dice,
+        'error': err,
+        'status': status
+    }
+    return output
+
+def roll(eq, diedict=None):
     eq = eq.replace(' ','')
-    
+    if not diedict:
+        diedict = {}
     # == BASE CASE ==
     if eq.isnumeric():
-        return eq
+        return eq, diedict
     
-    # print(f"EQ: {eq}")
+    print(f"EQ: {eq}")
 
     atom = r'\d+d\d+!?'
     # print(f"Atoms found: {re.search(atom,eq)} | {re.findall(atom, eq)}")
-    bracket = r'\[.*\][h|l]\d+'
+    bracket = r'\[[^\[\]]+\][hl]\d+'
     # print(f"Brackets found: {re.search(bracket, eq)} | {re.findall(bracket, eq)}")
     array = r'\[[^\[\]]+\]'
     # print(f"Naked arrays found: {re.search(array, eq)} | {re.findall(array, eq)}")
@@ -23,6 +39,7 @@ def roll(eq):
     # == CASE ONE ==
     # Evaluate all atomic rolls (XdY) and replace with arrays
     # of all X rolls of dietype Y
+    indmarker = 0
     if re.search(atom, eq):
         # print("Running Atomic Case")
         for match in re.findall(atom, eq):
@@ -54,8 +71,13 @@ def roll(eq):
             output = f'[{join}]'
 
             replacestr = f"{match}{'!' if canAce else ''}"
+            if match in diedict.keys():
+                diedict[f"{match}({indmarker})"] = arr
+                indmarker += 1
+            else:
+                diedict[match] = arr
             eq = eq.replace(replacestr, output, 1)
-        return roll(eq)
+        return roll(eq, diedict)
 
     # == CASE TWO ==
     # Now, if no more atomic equations exist, we evaluate any choose
@@ -65,6 +87,7 @@ def roll(eq):
     elif re.search(bracket, eq):
         # print("Running Bracketed Case")
         for match in re.findall(bracket, eq):
+            # print(f"Bracket Match: {match}")
             if 'h' in match:
                 choosetype = 'highest'
                 splitchar = 'h'
@@ -83,7 +106,7 @@ def roll(eq):
                 res = arr[:count]
 
             eq = eq.replace(match, str(sum(res)), 1)
-        return roll(eq)
+        return roll(eq, diedict)
     
     # == CASE THREE ==
     # If an array doesn't have any choose operator, then we want
@@ -95,18 +118,24 @@ def roll(eq):
             arr = [int(num) for num in match.replace('[','').replace(']','').split(',')]
             arrsum = sum(arr)
             eq = eq.replace(match, str(arrsum), 1)
-        return roll(eq)
+        return roll(eq, diedict)
 
     # == CASE FOUR ==
     # If all the other operations have completed
     # then we try to evaluate the remaining simple
     # mathematical equation
     else:
-        print("Last eval step")
+        # print("Last eval step")
         try:
             evaluated = eval(eq)
-            return evaluated
+            return evaluated, diedict
         except:
-            return f"Unimplemented logic: {eq}"
+            return f"bad equation: {eq}", diedict
 
-    return f"Unimplemented logic: {eq}"
+    return f"bad equation: {eq}", diedict
+
+
+i = input()
+while i != '':
+    print(evaluate(i))
+    i = input()
