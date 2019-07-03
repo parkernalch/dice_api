@@ -20,7 +20,7 @@ def roll():
         if 'eq' in request.args:
             rollequation = str(request.args['eq'])
 
-        print(rollequation)
+        # print(rollequation)
         res = evaluate(rollequation)
         return jsonify(res)
         # return jsonify(Roll(rollequation))
@@ -34,10 +34,11 @@ def roll():
     # res = flask.make_response()
     # res['result'] = evaluate(rollequation)
     
-    if str(res)[:1] == "U":
-        res['status'] = 400
-        res['err'] = "Unimplemented error"
-        res['xhr'] = ""
+    # if str(res)[:1] == "U":
+    #     res['status'] = 400
+    #     res['err'] = "Unimplemented error"
+    #     res['xhr'] = ""
 
     return jsonify(res)
 
+app.run()
