@@ -3,7 +3,7 @@ import re
 
 def evaluate(eq):
     result, dice = roll(eq)
-    if not result[:1].isnumeric():
+    if not result.isnumeric():
         status = 'error'
         err = result
         result = '0'
@@ -15,7 +15,8 @@ def evaluate(eq):
         'result': result,
         'dice': dice,
         'error': err,
-        'status': status
+        'status': status,
+        'equation': eq
     }
     return output
 
@@ -135,7 +136,7 @@ def roll(eq, diedict=None):
     return f"bad equation: {eq}", diedict
 
 
-i = input()
-while i != '':
-    print(evaluate(i))
-    i = input()
+# i = input()
+# while i != '':
+#     print(evaluate(i))
+#     i = input()
