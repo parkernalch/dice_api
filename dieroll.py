@@ -3,7 +3,7 @@ import re
 
 def evaluate(eq):
     result, dice = roll(eq)
-    if not result.isnumeric():
+    if not result.isnumeric() or not type(result) == int:
         status = 'error'
         err = result
         result = '0'
