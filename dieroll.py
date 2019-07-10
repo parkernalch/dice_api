@@ -25,7 +25,7 @@ def roll(eq, diedict=None):
     if not diedict:
         diedict = {}
     # == BASE CASE ==
-    if eq.isnumeric():
+    if eq.isnumeric() or type(eq) == int:
         return eq, diedict
     
     print(f"EQ: {eq}")
