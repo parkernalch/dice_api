@@ -41,4 +41,8 @@ def roll():
 
     return jsonify(res)
 
+@app.route('/ping', methods=['GET'])
+def ping():
+    return 'pong'
+
 # app.run()
