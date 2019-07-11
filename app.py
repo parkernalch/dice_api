@@ -20,24 +20,12 @@ def roll():
         if 'eq' in request.args:
             rollequation = str(request.args['eq'])
 
-        # print(rollequation)
         res = evaluate(rollequation)
         return jsonify(res)
-        # return jsonify(Roll(rollequation))
-        # return str(random.randint(1, 20))
     
     req = request.get_json()
     rollequation = req['equation']
-    # return jsonify(Roll(rollequation))
     res = evaluate(rollequation)
-
-    # res = flask.make_response()
-    # res['result'] = evaluate(rollequation)
-    
-    # if str(res)[:1] == "U":
-    #     res['status'] = 400
-    #     res['err'] = "Unimplemented error"
-    #     res['xhr'] = ""
 
     return jsonify(res)
 

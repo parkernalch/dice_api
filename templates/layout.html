@@ -26,6 +26,7 @@
         <div class="resbox" id="resbox">
             <h4 id="reshead">Enter a valid equation:</h4>
             <h1 id="result" style="font-size: 50px"></h1>
+            <div id="dice"></div>
         </div>
         <div class="spacer"></div>
         <div class="histbox" id="histbox">
@@ -64,6 +65,24 @@
                         $("#reshead").html("Your roll of " + res.equation + " is:");
                         $("#histlist").append("<li>" + res.equation + " | " + res.result.toString() + "</li>")
                         $("#histlist").scrollTop($("#histlist")[0].scrollHeight);
+                        $("#dice").empty();
+                        let dice = res.dice;
+                        // console.log(dice);
+                        if(dice){
+                            let diceCount = Object.keys(dice)
+                                .map(key => dice[key].length)
+                                .reduce((agg, len) => agg + len, 0);
+                            // console.log(diceCount);
+                            if(diceCount > 20){
+                                return;
+                            }
+                            for(var key of Object.keys(dice)){
+                                // console.log(key);
+                                let htmlBlock = $("<div>");
+                                htmlBlock.html(`${key}: ${dice[key]}`);
+                                $("#dice").append(htmlBlock);
+                            }
+                        }
                     },
                     error: function(xhr, err, status){
                         console.log(xhr, err, status);
