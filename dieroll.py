@@ -30,7 +30,7 @@ def roll(eq, diedict=None):
     if eq.isnumeric() or type(eq) == int:
         return eq, diedict
     
-    print(f"EQ: {eq}")
+    # print(f"EQ: {eq}")
 
     atom = r'\d+d\d+!?'
     # print(f"Atoms found: {re.search(atom,eq)} | {re.findall(atom, eq)}")
@@ -136,9 +136,3 @@ def roll(eq, diedict=None):
             return f"bad equation: {eq}", diedict
 
     return f"bad equation: {eq}", diedict
-
-
-# i = input()
-# while i != '':
-#     print(evaluate(i))
-#     i = input()
